@@ -1,0 +1,3 @@
+PASS: real X11 window, text/graphics/resize, focus release, keyboard, mouse capture/buttons/motion, close and HD persistence.
+Keyboard: [30, 158, 42, 170, 20, 148]
+Mouse packets: [[9, 0, 0], [8, 0, 0], [40, 40, 236], [10, 0, 0], [8, 0, 0], [12, 0, 0], [8, 0, 0], [9, 0, 0], [8, 0, 0]]

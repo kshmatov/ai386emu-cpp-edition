@@ -1,0 +1,272 @@
+[
+  {
+    "mode": "00",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      400
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      2,
+      1
+    ],
+    "different_pixels": 231194,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 58314,
+    "max_channel_error": 255
+  },
+  {
+    "mode": "01",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      400
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      2,
+      1
+    ],
+    "different_pixels": 231194,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 58314,
+    "max_channel_error": 255
+  },
+  {
+    "mode": "02",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      640,
+      400
+    ],
+    "comparison": "incompatible_dimensions"
+  },
+  {
+    "mode": "03",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      640,
+      400
+    ],
+    "comparison": "incompatible_dimensions"
+  },
+  {
+    "mode": "04",
+    "ai386_exit": 1,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "comparison": "not_run"
+  },
+  {
+    "mode": "05",
+    "ai386_exit": 1,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "comparison": "not_run"
+  },
+  {
+    "mode": "06",
+    "ai386_exit": 1,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "comparison": "not_run"
+  },
+  {
+    "mode": "07",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      640,
+      400
+    ],
+    "comparison": "incompatible_dimensions"
+  },
+  {
+    "mode": "0d",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 127744,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  },
+  {
+    "mode": "0e",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      640,
+      200
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      2
+    ],
+    "different_pixels": 127872,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  },
+  {
+    "mode": "0f",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      350
+    ],
+    "ai386_size": [
+      640,
+      350
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 167920,
+    "total_pixels": 224000,
+    "different_dac6_pixels": 153920,
+    "max_channel_error": 56
+  },
+  {
+    "mode": "10",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      350
+    ],
+    "ai386_size": [
+      640,
+      350
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 111920,
+    "total_pixels": 224000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  },
+  {
+    "mode": "11",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      480
+    ],
+    "ai386_size": [
+      640,
+      480
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 153600,
+    "total_pixels": 307200,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  },
+  {
+    "mode": "12",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      480
+    ],
+    "ai386_size": [
+      640,
+      480
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 153600,
+    "total_pixels": 307200,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  },
+  {
+    "mode": "13",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 192000,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 3
+  }
+]

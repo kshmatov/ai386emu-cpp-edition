@@ -1,0 +1,50 @@
+{
+  "qemu": "QEMU emulator version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)",
+  "command": [
+    "/tmp/ai386-qemu/root/usr/bin/qemu-system-i386",
+    "-accel",
+    "tcg",
+    "-cpu",
+    "486",
+    "-m",
+    "64",
+    "-L",
+    "/tmp/ai386-qemu/root/usr/share/qemu",
+    "-bios",
+    "/tmp/ai386-qemu/root/usr/share/seabios/bios-256k.bin",
+    "-vga",
+    "none",
+    "-device",
+    "VGA,romfile=/tmp/ai386-qemu/root/usr/share/seabios/vgabios-stdvga.bin",
+    "-drive",
+    "file=/tmp/ai386-vga-boot.img,format=raw,if=floppy,readonly=on",
+    "-boot",
+    "a",
+    "-nic",
+    "none",
+    "-display",
+    "none",
+    "-serial",
+    "none",
+    "-monitor",
+    "stdio",
+    "-debugcon",
+    "file:/tmp/ai386-vga-comparison/debugcon.txt"
+  ],
+  "ai386_size": [
+    320,
+    200
+  ],
+  "qemu_size": [
+    640,
+    400
+  ],
+  "integer_scale": [
+    2,
+    2
+  ],
+  "different_pixels": 192000,
+  "total_pixels": 256000,
+  "different_dac6_pixels": 0,
+  "max_channel_error": 3
+}

@@ -1,0 +1,354 @@
+[
+  {
+    "mode": "00",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      400
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      2,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "01",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      400
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      2,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "02",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      720,
+      400
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 288000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "03",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      720,
+      400
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 288000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "04",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "05",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "06",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      640,
+      200
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      2
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "07",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      720,
+      400
+    ],
+    "ai386_size": [
+      720,
+      400
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 288000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "0d",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "0e",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      640,
+      200
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      2
+    ],
+    "different_pixels": 0,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "0f",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      350
+    ],
+    "ai386_size": [
+      640,
+      350
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 111920,
+    "total_pixels": 224000,
+    "different_dac6_pixels": 111920,
+    "max_channel_error": 168
+  },
+  {
+    "mode": "10",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      350
+    ],
+    "ai386_size": [
+      640,
+      350
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 224000,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "11",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      480
+    ],
+    "ai386_size": [
+      640,
+      480
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 153600,
+    "total_pixels": 307200,
+    "different_dac6_pixels": 153600,
+    "max_channel_error": 255
+  },
+  {
+    "mode": "12",
+    "ai386_exit": 0,
+    "capture_exit": 0,
+    "qemu_size": [
+      640,
+      480
+    ],
+    "ai386_size": [
+      640,
+      480
+    ],
+    "comparison": "equal",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 0,
+    "total_pixels": 307200,
+    "different_dac6_pixels": 0,
+    "max_channel_error": 0
+  },
+  {
+    "mode": "13",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      400
+    ],
+    "ai386_size": [
+      320,
+      200
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      2,
+      2
+    ],
+    "different_pixels": 231000,
+    "total_pixels": 256000,
+    "different_dac6_pixels": 231000,
+    "max_channel_error": 255
+  },
+  {
+    "mode": "101",
+    "ai386_exit": 0,
+    "capture_exit": 1,
+    "qemu_size": [
+      640,
+      480
+    ],
+    "ai386_size": [
+      640,
+      480
+    ],
+    "comparison": "different",
+    "integer_scale": [
+      1,
+      1
+    ],
+    "different_pixels": 277200,
+    "total_pixels": 307200,
+    "different_dac6_pixels": 277200,
+    "max_channel_error": 255
+  }
+]

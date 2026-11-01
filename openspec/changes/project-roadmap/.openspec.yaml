@@ -1,0 +1,5 @@
+schema: spec-driven
+created: 2026-08-28
+# Дельты спек сверены с базой и перенесены в openspec/specs (2026-11-01);
+# change остаётся планом работ без собственных дельт.
+skip_specs: true
