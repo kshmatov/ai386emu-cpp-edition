@@ -1,0 +1,21 @@
+display = "window"
+display_scale = 2
+display_fps = 30
+
+# ~8 MIPS host: 100 МГц делает нажатия короче тика Doom (см. docs/doom-debug/quit-hang-research.md).
+clock_hz = 1000000
+
+hd = "build/freedos/freedos-ready.img"
+hd_size = "256M"
+cd = ["build/freedos/FD14LIVE.iso"]
+shared = ["build/freedos/doom-cd"]
+ram = "16M"
+boot = ["hd", "cd"]
+
+sb16 = true
+sb16_base = 0x220
+sb16_irq = 5
+sb16_dma8 = 1
+sb16_dma16 = 5
+sb_backend = "auto"
+network = false

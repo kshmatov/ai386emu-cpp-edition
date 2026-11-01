@@ -1,0 +1,9 @@
+@ECHO OFF
+IF NOT EXIST C:\NUL GOTO NOHD
+IF NOT EXIST C:\DOOM\NUL MD C:\DOOM
+COPY DOOM\*.* C:\DOOM\
+ECHO Run C:\DOOM\DOOM.EXE after changing to C:\DOOM.
+GOTO END
+:NOHD
+ECHO Install FreeDOS on drive C: first.
+:END
