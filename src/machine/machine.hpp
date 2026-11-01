@@ -7,8 +7,12 @@
 
 #include "config/config.hpp"
 #include "machine/bus.hpp"
+#include "machine/clock.hpp"
 #include "machine/cpu.hpp"
 #include "machine/memory.hpp"
+#include "machine/pic.hpp"
+#include "machine/pit.hpp"
+#include "machine/rtc.hpp"
 
 namespace ai386 {
 
@@ -42,10 +46,21 @@ class Machine {
   [[nodiscard]] bool running() const;
   [[nodiscard]] bool stop_requested() const;
   Bus& bus();
+  VirtualClock& clock();
+  Pic& pic();
+  Pit& pit();
+  Rtc& rtc();
 
  private:
+  // Advances the shared clock and lets timers follow it.
+  void AdvanceDevices(std::uint64_t cycles);
+
   std::unique_ptr<Memory> ram_;
   std::unique_ptr<Bus> bus_;
+  VirtualClock clock_;
+  Pic pic_;
+  Pit pit_{pic_};
+  Rtc rtc_;
   std::atomic<bool> running_{false};
   std::atomic<bool> stop_requested_{false};
   std::atomic<bool> loop_active_{false};

@@ -97,6 +97,33 @@ TEST(MachineRunLoopTest, HaltedCpuWaitsForWake) {
   EXPECT_LE(cpu.step_count(), 3u);
 }
 
+// Scenario: Пробуждение HLT таймером — IRQ0 от PIT будит остановленный CPU.
+TEST(MachineRunLoopTest, TimerWakesHaltedCpu) {
+  Config config = TestConfig();
+  config.clock_hz = 1193182;  // one PIT tick per CPU cycle for a quick test
+  Machine machine(config);
+  // Channel 0, mode 2, reload 2: IRQ0 every two PIT ticks.
+  machine.bus().WritePort(0x43, 0x34, AccessWidth::k8);
+  machine.bus().WritePort(0x40, 0x02, AccessWidth::k8);
+  machine.bus().WritePort(0x40, 0x00, AccessWidth::k8);
+
+  std::atomic<bool> halted{false};
+  std::atomic<bool> resumed{false};
+  CallbackCpu cpu([&machine, &halted, &resumed](std::size_t index) {
+    if (index == 0) {
+      halted.store(true);
+      return false;  // HLT
+    }
+    resumed.store(true);
+    machine.RequestStop();
+    return true;
+  });
+  machine.Run(cpu);
+  EXPECT_TRUE(halted.load());
+  EXPECT_TRUE(resumed.load());
+  EXPECT_GE(cpu.step_count(), 2u);
+}
+
 // Scenario: Повторный запуск цикла — второй цикл отклоняется.
 TEST(MachineRunLoopTest, SecondRunLoopRejected) {
   Machine machine(TestConfig());

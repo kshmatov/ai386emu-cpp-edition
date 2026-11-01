@@ -111,6 +111,60 @@ std::uint64_t ParseSize(std::string_view text) {
   return value * multiplier;
 }
 
+std::optional<std::int64_t> ParseRtcStart(std::string_view text) {
+  if (text == "host") return std::nullopt;
+  // RFC3339: YYYY-MM-DDTHH:MM:SS[Z|+HH:MM|-HH:MM]
+  if (text.size() < 20 || text[4] != '-' || text[7] != '-' || text[10] != 'T' || text[13] != ':' ||
+      text[16] != ':' || text[19] != 'Z') {
+    throw ConfigError("invalid rtc_start: " + std::string(text) +
+                      " (expected \"host\" or RFC3339 like 2024-02-28T23:59:59Z)");
+  }
+  int year = 0;
+  int month = 0;
+  int day = 0;
+  int hour = 0;
+  int minute = 0;
+  int second = 0;
+  try {
+    year = std::stoi(std::string(text.substr(0, 4)));
+    month = std::stoi(std::string(text.substr(5, 2)));
+    day = std::stoi(std::string(text.substr(8, 2)));
+    hour = std::stoi(std::string(text.substr(11, 2)));
+    minute = std::stoi(std::string(text.substr(14, 2)));
+    second = std::stoi(std::string(text.substr(17, 2)));
+  } catch (const std::exception&) {
+    throw ConfigError("invalid rtc_start: " + std::string(text));
+  }
+  if (year < 1900 || year > 2099) {
+    throw ConfigError("rtc_start year must be between 1900 and 2099: " + std::string(text));
+  }
+  if (month < 1 || month > 12 || day < 1 || day > 31 || hour > 23 || minute > 59 || second > 59) {
+    throw ConfigError("invalid rtc_start date: " + std::string(text));
+  }
+  // Days from 1970-01-01 using the civil calendar algorithm.
+  const std::int64_t era = (year - (month <= 2 ? 1 : 0)) / 400;
+  const std::int64_t yoe = year - (month <= 2 ? 1 : 0) - era * 400;
+  const std::int64_t doy = (153 * (month + (month > 2 ? -3 : 9)) + 2) / 5 + day - 1;
+  const std::int64_t doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+  const std::int64_t days = era * 146097 + doe - 719468;
+  // Reject impossible dates like 2024-02-30 by converting back.
+  std::int64_t check = days + 719468;
+  const std::int64_t check_era = (check >= 0 ? check : check - 146096) / 146097;
+  const std::int64_t check_doe = check - check_era * 146097;
+  const std::int64_t check_yoe =
+      (check_doe - check_doe / 1460 + check_doe / 36524 - check_doe / 146096) / 365;
+  const std::int64_t check_y = check_yoe + check_era * 400;
+  const std::int64_t check_doy = check_doe - (365 * check_yoe + check_yoe / 4 - check_yoe / 100);
+  const std::int64_t check_mp = (5 * check_doy + 2) / 153;
+  const int check_day = static_cast<int>(check_doy - (153 * check_mp + 2) / 5 + 1);
+  const int check_month = static_cast<int>(check_mp + (check_mp < 10 ? 3 : -9));
+  const int check_year = static_cast<int>(check_y + (check_month <= 2 ? 1 : 0));
+  if (check_year != year || check_month != month || check_day != day) {
+    throw ConfigError("invalid rtc_start date: " + std::string(text));
+  }
+  return days * 86400 + hour * 3600LL + minute * 60LL + second;
+}
+
 void ValidateConfig(const Config& config) {
   if (config.hd_path.empty()) {
     throw ConfigError("hard disk image path is required (--hd)");
@@ -120,6 +174,19 @@ void ValidateConfig(const Config& config) {
   }
   if (config.ram_bytes > kAddressSpaceBytes) {
     throw ConfigError("RAM size must not exceed the 32-bit address space (4 GiB)");
+  }
+  if (config.clock_hz == 0 || config.clock_hz > kMaxClockHz) {
+    throw ConfigError("clock_hz must be between 1 and 1000000000");
+  }
+  if (!config.floppy.empty()) {
+    std::error_code error;
+    const std::uint64_t size = std::filesystem::file_size(config.floppy, error);
+    if (error || !std::filesystem::is_regular_file(config.floppy)) {
+      throw ConfigError("floppy image not found: " + config.floppy.string());
+    }
+    if (size != kFloppySizeBytes) {
+      throw ConfigError("floppy image must be 1474560 bytes (1.44M): " + config.floppy.string());
+    }
   }
   const std::size_t cd_count = config.cd_images.size() + config.shared_dirs.size();
   if (cd_count > kMaxCdCount) {
@@ -190,6 +257,19 @@ Config ParseConfig(const std::vector<std::string>& args) {
     if (const std::optional<std::vector<std::string>> boot = TomlStringArray(table, "boot")) {
       config.boot_order = *boot;
     }
+    if (const std::optional<std::string> floppy = TomlString(table, "floppy")) {
+      config.floppy = std::filesystem::path(*floppy);
+    }
+    if (const toml::node* clock = table.get("clock_hz")) {
+      const toml::value<std::int64_t>* value = clock->as_integer();
+      if (value == nullptr) {
+        throw ConfigError("config key 'clock_hz' must be an integer");
+      }
+      config.clock_hz = static_cast<std::uint64_t>(value->get());
+    }
+    if (const std::optional<std::string> rtc = TomlString(table, "rtc_start")) {
+      config.rtc_start_epoch = ParseRtcStart(*rtc);
+    }
     // Unknown keys are ignored: they belong to later features.
   }
 
@@ -224,6 +304,12 @@ Config ParseConfig(const std::vector<std::string>& args) {
       target.emplace_back(value);
     } else if (key == "--ram") {
       config.ram_bytes = ParseSize(value);
+    } else if (key == "--floppy") {
+      config.floppy = std::filesystem::path(value);
+    } else if (key == "--clock-hz") {
+      config.clock_hz = ParseSize(value);
+    } else if (key == "--rtc-start") {
+      config.rtc_start_epoch = ParseRtcStart(value);
     } else if (key == "--boot") {
       config.boot_order = SplitDevices(value);
     } else {

@@ -61,8 +61,8 @@ TEST_F(BusTest, DeviceMemoryRangeTakesPrecedence) {
   bus_.WriteMemory(0x104, 0x42, AccessWidth::k8);
   EXPECT_EQ(bus_.ReadMemory(0x104, AccessWidth::k8), 0x5A5A5A5Au);
   ASSERT_EQ(device.memory_reads.size(), 1u);
-  EXPECT_EQ(device.memory_reads[0].offset, 4u);
-  EXPECT_EQ(device.memory_writes[0].offset, 4u);
+  EXPECT_EQ(device.memory_reads[0].offset, 0x104u);
+  EXPECT_EQ(device.memory_writes[0].offset, 0x104u);
   EXPECT_EQ(device.memory_writes[0].value, 0x42u);
   // RAM behind the device range is not touched.
   EXPECT_EQ(ram_.Read8(0x104), 0x00);
@@ -85,10 +85,10 @@ TEST_F(BusTest, PortAccessRoutedToDevice) {
   bus_.WritePort(0x222, 0x77, AccessWidth::k8);
   EXPECT_EQ(bus_.ReadPort(0x222, AccessWidth::k8), 0x12345678u);
   ASSERT_EQ(device.port_writes.size(), 1u);
-  EXPECT_EQ(device.port_writes[0].offset, 2u);
+  EXPECT_EQ(device.port_writes[0].offset, 0x222u);
   EXPECT_EQ(device.port_writes[0].value, 0x77u);
   ASSERT_EQ(device.port_reads.size(), 1u);
-  EXPECT_EQ(device.port_reads[0].offset, 2u);
+  EXPECT_EQ(device.port_reads[0].offset, 0x222u);
 }
 
 // Scenario: Чтение порта без устройства

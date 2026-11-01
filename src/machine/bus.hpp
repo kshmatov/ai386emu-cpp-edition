@@ -11,20 +11,21 @@ namespace ai386 {
 // Access width of a bus transaction in bits.
 enum class AccessWidth : std::uint8_t { k8 = 8, k16 = 16, k32 = 32 };
 
-// A peripheral attached to the bus: a memory range and/or a port range.
-// Wide accesses are passed through as a whole so devices like the IDE data
-// register keep their FIFO semantics.
+// A peripheral attached to the bus: a memory range and/or a port range. The
+// device receives the absolute address or port of the access; wide accesses
+// are passed through as a whole so devices like the IDE data register keep
+// their FIFO semantics.
 class Device {
  public:
   virtual ~Device() = default;
 
-  // Memory-mapped register access inside the registered range.
-  virtual std::uint32_t ReadMemory(std::uint32_t offset, AccessWidth width) = 0;
-  virtual void WriteMemory(std::uint32_t offset, std::uint32_t value, AccessWidth width) = 0;
+  // Memory-mapped register access inside a registered range.
+  virtual std::uint32_t ReadMemory(std::uint32_t address, AccessWidth width) = 0;
+  virtual void WriteMemory(std::uint32_t address, std::uint32_t value, AccessWidth width) = 0;
 
-  // Port access inside the registered port range.
-  virtual std::uint32_t ReadPort(std::uint16_t offset, AccessWidth width) = 0;
-  virtual void WritePort(std::uint16_t offset, std::uint32_t value, AccessWidth width) = 0;
+  // Port access inside a registered port range.
+  virtual std::uint32_t ReadPort(std::uint16_t port, AccessWidth width) = 0;
+  virtual void WritePort(std::uint16_t port, std::uint32_t value, AccessWidth width) = 0;
 
   // Lifecycle notifications from the machine.
   virtual void Start() {}
@@ -63,12 +64,12 @@ class Bus {
     Device* device;
   };
 
+  void RegisterDevice(Device& device);
+
   Memory& ram_;
   std::vector<MemoryRange> memory_devices_;
   std::vector<PortRange> port_devices_;
   std::vector<Device*> devices_;
-
-  void RegisterDevice(Device& device);
 };
 
 }  // namespace ai386

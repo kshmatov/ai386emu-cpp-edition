@@ -147,6 +147,67 @@ TEST_F(ConfigTest, UnknownParameterRejected) {
   EXPECT_THROW(ParseConfig(args), ConfigError);
 }
 
+// Scenario: Настройка частоты (clock_hz: TOML + CLI с приоритетом)
+TEST_F(ConfigTest, ClockHzPriorityCliOverToml) {
+  const std::filesystem::path path =
+      WriteFile("clock.toml", "hd = \"disk.img\"\nclock_hz = 50000000\n");
+  const Config config = ParseConfig({"--config", path.string(), "--clock-hz", "100000000"});
+  EXPECT_EQ(config.clock_hz, 100000000u);
+}
+
+// Scenario: Недопустимая частота
+TEST_F(ConfigTest, InvalidClockHzRejected) {
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--clock-hz", "0"}), ConfigError);
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--clock-hz", "-5"}), ConfigError);
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--clock-hz", "1000000001"}), ConfigError);
+}
+
+// Scenario: Воспроизводимое начало (rtc_start)
+TEST_F(ConfigTest, RtcStartFixedDate) {
+  const Config config = ParseConfig({"--hd", "disk.img", "--rtc-start", "2024-02-28T23:59:59Z"});
+  ASSERT_TRUE(config.rtc_start_epoch.has_value());
+  EXPECT_EQ(*config.rtc_start_epoch, 1709164799);
+}
+
+// Scenario: Переопределение CLI (host сбрасывает дату из TOML)
+TEST_F(ConfigTest, RtcStartHostOverridesFile) {
+  const std::filesystem::path path =
+      WriteFile("rtc.toml", "hd = \"disk.img\"\nrtc_start = \"2024-02-28T23:59:59Z\"\n");
+  const Config config = ParseConfig({"--config", path.string(), "--rtc-start", "host"});
+  EXPECT_FALSE(config.rtc_start_epoch.has_value());
+}
+
+// Scenario: Недопустимые значения rtc_start
+TEST_F(ConfigTest, RtcStartInvalidRejected) {
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--rtc-start", "2024-02-30T00:00:00Z"}),
+               ConfigError);
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--rtc-start", "1899-01-01T00:00:00Z"}),
+               ConfigError);
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--rtc-start", "not-a-date"}), ConfigError);
+}
+
+// Scenario: Подключение floppy-образа / неверный размер
+TEST_F(ConfigTest, FloppySizeValidated) {
+  const std::filesystem::path floppy = test_dir_ / "disk.flp";
+  std::ofstream stream(floppy, std::ios::binary);
+  stream << std::string(1474560, '\0');
+  stream.close();
+  const Config config = ParseConfig({"--hd", "disk.img", "--floppy", floppy.string()});
+  EXPECT_EQ(config.floppy, floppy);
+
+  const std::filesystem::path small = test_dir_ / "small.flp";
+  std::ofstream small_stream(small, std::ios::binary);
+  small_stream << "tiny";
+  small_stream.close();
+  EXPECT_THROW(ParseConfig({"--hd", "disk.img", "--floppy", small.string()}), ConfigError);
+}
+
+// Scenario: Floppy без файла — дисковод не подключается
+TEST_F(ConfigTest, FloppyAbsentMeansNoDrive) {
+  const Config config = ParseConfig({"--hd", "disk.img"});
+  EXPECT_TRUE(config.floppy.empty());
+}
+
 TEST_F(ConfigTest, KeyValueFormIsAccepted) {
   const Config config = ParseConfig({"--hd=disk.img", "--ram=8M"});
   EXPECT_EQ(config.hd_path, std::filesystem::path("disk.img"));

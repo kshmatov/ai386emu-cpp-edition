@@ -73,7 +73,7 @@ std::uint32_t Bus::ReadMemory(std::uint32_t address, AccessWidth width) {
   const std::uint8_t bytes = AccessBytes(width);
   for (const MemoryRange& range : memory_devices_) {
     if (address >= range.base && address + bytes <= range.base + range.size) {
-      return range.device->ReadMemory(address - range.base, width);
+      return range.device->ReadMemory(address, width);
     }
   }
   // RAM and unmapped addresses are composed from byte accesses, so a wide
@@ -90,7 +90,7 @@ void Bus::WriteMemory(std::uint32_t address, std::uint32_t value, AccessWidth wi
   const std::uint8_t bytes = AccessBytes(width);
   for (const MemoryRange& range : memory_devices_) {
     if (address >= range.base && address + bytes <= range.base + range.size) {
-      range.device->WriteMemory(address - range.base, value, width);
+      range.device->WriteMemory(address, value, width);
       return;
     }
   }
@@ -104,7 +104,7 @@ std::uint32_t Bus::ReadPort(std::uint16_t port, AccessWidth width) {
   for (const PortRange& range : port_devices_) {
     const std::uint32_t range_end = static_cast<std::uint32_t>(range.base) + range.size - 1;
     if (port >= range.base && static_cast<std::uint32_t>(port) + bytes - 1 <= range_end) {
-      return range.device->ReadPort(port - range.base, width);
+      return range.device->ReadPort(port, width);
     }
   }
   // Port reads without a device answer with 0xFF for the requested width.
@@ -116,7 +116,7 @@ void Bus::WritePort(std::uint16_t port, std::uint32_t value, AccessWidth width) 
   for (const PortRange& range : port_devices_) {
     const std::uint32_t range_end = static_cast<std::uint32_t>(range.base) + range.size - 1;
     if (port >= range.base && static_cast<std::uint32_t>(port) + bytes - 1 <= range_end) {
-      range.device->WritePort(port - range.base, value, width);
+      range.device->WritePort(port, value, width);
     }
   }
 }

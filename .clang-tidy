@@ -4,6 +4,8 @@ Checks: >
   performance-*,
   modernize-*,
   -modernize-use-trailing-return-type,
-  -modernize-avoid-c-arrays
+  -modernize-avoid-c-arrays,
+  -bugprone-signed-bitwise,
+  -bugprone-easily-swappable-parameters
 WarningsAsErrors: ''
 HeaderFilterRegex: 'src/'
