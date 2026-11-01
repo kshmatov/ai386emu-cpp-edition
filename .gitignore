@@ -66,3 +66,9 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# Disk and CD images (too large for git; see freedos/README.md)
+*.img
+*.iso
+*.zip
+*.pcm

@@ -1,0 +1,9 @@
+{
+  "name": "ai386",
+  "version-string": "0.1.0",
+  "description": "Emulator of an i486DX4-100 machine (VGA, SB16, IDE/ATAPI, NE2000)",
+  "dependencies": [
+    "gtest",
+    "tomlplusplus"
+  ]
+}
